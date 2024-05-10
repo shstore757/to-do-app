@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body.dark {
+  --color-primary: #020202;
+  --color-secondary: #f5f5f5;
+  --color-third: #1b2f3c;
+  --color-forth: #0284c7;
+  --color-neutral: #737373;
+  --color-compl: #ff7f00;
+}
+
+body {
+  --color-primary: #f5f5f5;
+  --color-secondary: #020202;
+  --color-third: #0284c7;
+  --color-forth: #1b2f3c;
+  --color-neutral: #737373;
+  --color-compl: #ff7f00;
+}
+
+.containerO {
+  position: relative;
+  width: 100%;
+  height: 1080px;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+
+.oso {
+  stroke: #ffc300;
+  stroke-width: 22px;
+  stroke-dashoffset: -2222;
+  stroke-dasharray: 2222;
+  animation-name: oso;
+  animation-duration: 3.33s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes oso {
+  0% {
+    stroke-dashoffset: -2000;
+    stroke: #ffc300;
+  }
+  30% {
+    stroke: rgb(255, 106, 0);
+  }
+  50% {
+    stroke: #ffc300;
+  }
+  70% {
+    stroke: rgb(255, 106, 0);
+  }
+  100% {
+    stroke-dashoffset: 100;
+    stroke: #ffc300;
+  }
+}
