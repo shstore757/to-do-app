@@ -150,7 +150,7 @@ const ListTask = () => {
       <InfinitySpin
         visible={true}
         width="222"
-        color="#4fa94d"
+        color= "#0284c7"
         ariaLabel="infinity-spin-loading"
       />
     );
