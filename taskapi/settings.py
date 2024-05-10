@@ -90,3 +90,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://to-do-basic.vercel.app"
 ]
+
+CORS_ORIGIN_WHITELIST = [
+     "https://to-do-basic.vercel.app",
+ ]
