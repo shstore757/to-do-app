@@ -9,7 +9,6 @@ import {
   Document,
   StyleSheet,
 } from "@react-pdf/renderer";
-import axios from "axios";
 
 // Estilos para el PDF
 const styles = StyleSheet.create({
@@ -29,29 +28,32 @@ const styles = StyleSheet.create({
   },
 });
 
-// Custom hooks para cargar tareas
+// Custom hook para cargar tareas usando fetch
 function useTasks() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const axiosTasks = async () => {
+    const fetchTasks = async () => {
       try {
-        const res = await axios.get(
+        const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/tasks/`
         );
-        const data = res.data;
+        if (!response.ok) {
+          throw new Error("Failed to fetch tasks");
+        }
+        const data = await response.json();
         setTasks(data.reverse());
         setLoading(false);
       } catch (error) {
-        console.error("Error axiosing tasks:", error);
+        console.error("Error fetching tasks:", error);
         setError(error);
         setLoading(false);
       }
     };
 
-    axiosTasks();
+    fetchTasks();
 
     return () => {
       // Cleanup
@@ -61,9 +63,15 @@ function useTasks() {
   // Función para eliminar una tarea
   const deleteTask = async (taskId) => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`,
+        {
+          method: "DELETE",
+        }
       );
+      if (!response.ok) {
+        throw new Error("Failed to delete task");
+      }
       // Actualizar la lista de tareas después de eliminar
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
     } catch (error) {
@@ -75,11 +83,20 @@ function useTasks() {
   // Función para actualizar una tarea
   const updateTask = async (taskId, updatedTaskData) => {
     try {
-      const res = await axios.put(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`,
-        updatedTaskData
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedTaskData),
+        }
       );
-      const updatedTask = res.data;
+      if (!response.ok) {
+        throw new Error("Failed to update task");
+      }
+      const updatedTask = await response.json();
       // Actualizar la tarea en la lista de tareas
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
@@ -95,10 +112,16 @@ function useTasks() {
   // Función para marcar una tarea como completada
   const checkTask = async (taskId) => {
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}/done/`
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}/done/`,
+        {
+          method: "POST",
+        }
       );
-      const updatedTask = res.data;
+      if (!response.ok) {
+        throw new Error("Failed to check task");
+      }
+      const updatedTask = await response.json();
       // Actualizar la lista de tareas después de marcar como completada
       setTasks((prevTasks) =>
         prevTasks.map((task) =>

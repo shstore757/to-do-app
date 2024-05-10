@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,13 +11,18 @@ const FormTask = () => {
     e.preventDefault();
     if (title !== "") {
       try {
-        const response = await axios.post(
+        const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/tasks/`,
-          { title, description },
-          { headers: { "Content-Type": "application/json" } }
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ title, description }),
+          }
         );
 
-        if (response.status !== 200) {
+        if (!response.ok) {
           throw new Error("Failed to add task");
         }
         navigate("/");
