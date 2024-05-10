@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +11,7 @@ const FormTask = () => {
   const handleSubmitAPI = useCallback(async () => {
     if (title !== "") {
       try {
-        const response = await fetch(
+        const response = await axios(
           `${import.meta.env.VITE_BACKEND_URL}/api/tasks/`,
           {
             method: "POST",

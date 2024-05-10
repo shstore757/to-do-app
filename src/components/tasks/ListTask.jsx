@@ -9,6 +9,7 @@ import {
   Document,
   StyleSheet,
 } from "@react-pdf/renderer";
+import axios from "axios";
 
 // Estilos para el PDF
 const styles = StyleSheet.create({
@@ -34,26 +35,26 @@ function useTasks() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchTasks = async () => {
+  const axiosTasks = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/tasks/`);
+      const res = await axios(`${import.meta.env.VITE_BACKEND_URL}/api/tasks/`);
       if (!res.ok) {
         throw new Error(
-          `Failed to fetch tasks: ${res.status} - ${res.statusText}`
+          `Failed to axios tasks: ${res.status} - ${res.statusText}`
         );
       }
       const data = await res.json();
       setTasks(data.reverse());
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      console.error("Error axiosing tasks:", error);
       setError(error);
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchTasks();
+    axiosTasks();
 
     // Cleanup
     return () => {};
@@ -62,7 +63,7 @@ function useTasks() {
   // Función para eliminar una tarea
   const deleteTask = async (taskId) => {
     try {
-      const res = await fetch(
+      const res = await axios(
         `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`,
         {
           method: "DELETE",
@@ -84,7 +85,7 @@ function useTasks() {
   // Función para actualizar una tarea
   const updateTask = async (taskId, updatedTaskData) => {
     try {
-      const res = await fetch(
+      const res = await axios(
         `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`,
         {
           method: "PUT",
@@ -115,7 +116,7 @@ function useTasks() {
   // Función para marcar una tarea como completada
   const checkTask = async (taskId) => {
     try {
-      const res = await fetch(
+      const res = await axios(
         `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}/done/`,
         {
           method: "POST",
@@ -150,7 +151,7 @@ const ListTask = () => {
       <InfinitySpin
         visible={true}
         width="222"
-        color= "#0284c7"
+        color="#0284c7"
         ariaLabel="infinity-spin-loading"
       />
     );
