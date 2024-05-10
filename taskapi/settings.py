@@ -86,18 +86,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS_ALLOWED_ORIGINS = [
-
-#     "https://to-do-basic.vercel.app",
-#         "http://localhost:5173"
-# ]
 CORS_ALLOWED_ORIGINS = [
-    '*',
-]
 
-CORS_ORIGIN_WHITELIST = [
-     "https://to-do-basic.vercel.app",
- ]
+    "https://to-do-basic.vercel.app",
+        "http://localhost:5173"
+]
 
 CORS_ALLOW_METHODS = [
     'GET',
