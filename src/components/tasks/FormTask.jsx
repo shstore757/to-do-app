@@ -52,14 +52,14 @@ const FormTask = () => {
   return (
     <div className="border border-forth p-6 mx-auto h-[420px] w-[360px] md:w-[500px] shadow-md shadow-neutral">
       <form ref={formRef} action="" onSubmit={handleSubmit}>
-        <h1 className="font-bold text-2xl text-forth">Add Task</h1>
+        <h1 className="font-bold text-2xl text-secondary">Add Task</h1>
         <label htmlFor="title" className="text-md text-secondary">
           Title:
         </label>
         <input
           type="text"
           name="title"
-          className="bg-zinc-200 rounded-sm  p-2 mb-2 block w-full text-forth"
+          className="bg-zinc-300 rounded-sm  p-2 mb-2 block w-full text-neutral"
           onChange={(e) => setTitle(e.target.value)}
         />
         <label htmlFor="title" className="text-md text-secondary">
@@ -70,7 +70,7 @@ const FormTask = () => {
           id="description"
           cols="30"
           rows="4"
-          className="bg-zinc-200 rounded-sm p-2 mb-2 block w-full h-fit text-forth"
+          className="bg-zinc-300 rounded-sm p-2 mb-2 block w-full h-fit text-neutral"
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
         <button

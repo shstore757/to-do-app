@@ -60,7 +60,7 @@ const TaskCardLocal = ({ task }) => {
   };
 
   return (
-    <div className="bg-zinc-200 px-4 py-2 mb-2 flex justify-between hover:shadow-sm hover:shadow-neutral text-forth h-fit">
+    <div className="bg-zinc-300 px-4 py-2 mb-2 flex justify-between hover:shadow-sm hover:shadow-neutral text-neutral h-fit">
       <div className="grid grid-cols-1 gap-1">
         <div>
           {!edit ? (
@@ -73,7 +73,7 @@ const TaskCardLocal = ({ task }) => {
               type="text"
               placeholder="Title"
               value={newTitle}
-              className="p-2 bg-primary text-third w-full mb-2"
+              className="p-2 bg-zinc-400 text-primary w-full mb-2"
               onChange={(e) => setNewTitle(e.target.value)}
             />
           )}
@@ -83,7 +83,7 @@ const TaskCardLocal = ({ task }) => {
             <textarea
               placeholder="Description"
               value={newDescription}
-              className="p-2 bg-primary text-third w-full h-fit"
+              className="p-2 bg-zinc-400 text-primary w-full h-fit"
               onChange={(e) => setNewDescription(e.target.value)}
             />
           )}

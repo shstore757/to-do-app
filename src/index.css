@@ -37,7 +37,7 @@ svg {
 
 .oso {
   stroke: #ffc300;
-  stroke-width: 22px;
+  stroke-width: 44px;
   stroke-dashoffset: -2222;
   stroke-dasharray: 2222;
   animation-name: oso;

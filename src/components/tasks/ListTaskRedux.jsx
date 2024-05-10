@@ -57,11 +57,11 @@ function ListTaskRedux() {
       className="border border-forth p-6 w-[365px] md:w-[500px] mx-auto mb-2
     shadow-md shadow-neutral"
     >
-      <h2 className="text-3xl font-bold text-center m-2 text-forth">
+      <h2 className="text-3xl text-center m-2 text-secondary">
         {" "}
         <span className="text-compl">Local</span> Tasks List
       </h2>
-      <h3 className="text-center text-forth">Individual</h3>
+      <h3 className="text-center text-secondary">Individual</h3>
       <div>
         {tasks &&
           tasks.map(
