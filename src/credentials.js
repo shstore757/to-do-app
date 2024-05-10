@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDvGQVqMcYwFnOpSht0qFgJb0ysz8pZTIY",
+  apiKey: import.meta.env.VITE_FIREBASE_KEY,
   authDomain: "to-do-8ca0a.firebaseapp.com",
   projectId: "to-do-8ca0a",
   storageBucket: "to-do-8ca0a.appspot.com",
@@ -10,7 +10,7 @@ const firebaseConfig = {
   measurementId: "G-DGK8JM1BCT",
 };
 
-console.log("Firebase Config:", import.meta.env.VITE_FIREBASE_KEY);
+console.log("Firebase Config: " + firebaseConfig);
 
 const appFirebase = initializeApp(firebaseConfig);
 
