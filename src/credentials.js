@@ -10,7 +10,7 @@ const firebaseConfig = {
   measurementId: "G-DGK8JM1BCT",
 };
 
-console.log("Firebase Config:", firebaseConfig);
+console.log("Firebase Config:", import.meta.env.VITE_FIREBASE_KEY);
 
 const appFirebase = initializeApp(firebaseConfig);
 
