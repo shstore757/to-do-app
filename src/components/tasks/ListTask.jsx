@@ -35,72 +35,51 @@ function useTasks() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const axiosTasks = async () => {
-    try {
-      const res = await axios(`${import.meta.env.VITE_BACKEND_URL}/api/tasks/`);
-      if (!res.ok) {
-        throw new Error(
-          `Failed to axios tasks: ${res.status} - ${res.statusText}`
-        );
-      }
-      const data = await res.json();
-      setTasks(data.reverse());
-      setLoading(false);
-    } catch (error) {
-      console.error("Error axiosing tasks:", error);
-      setError(error);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const axiosTasks = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/tasks/`
+        );
+        const data = res.data;
+        setTasks(data.reverse());
+        setLoading(false);
+      } catch (error) {
+        console.error("Error axiosing tasks:", error);
+        setError(error);
+        setLoading(false);
+      }
+    };
+
     axiosTasks();
 
-    // Cleanup
-    return () => {};
+    return () => {
+      // Cleanup
+    };
   }, []);
 
   // Función para eliminar una tarea
   const deleteTask = async (taskId) => {
     try {
-      const res = await axios(
-        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`,
-        {
-          method: "DELETE",
-        }
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`
       );
-      if (!res.ok) {
-        throw new Error(
-          `Failed to delete task: ${res.status} - ${res.statusText}`
-        );
-      }
       // Actualizar la lista de tareas después de eliminar
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
     } catch (error) {
       console.error("Error deleting task:", error);
-      throw new Error("Failed to delete task. Please try again later.");
+      setError(error);
     }
   };
 
   // Función para actualizar una tarea
   const updateTask = async (taskId, updatedTaskData) => {
     try {
-      const res = await axios(
+      const res = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(updatedTaskData),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        updatedTaskData
       );
-      if (!res.ok) {
-        throw new Error(
-          `Failed to update task: ${res.status} - ${res.statusText}`
-        );
-      }
-      const updatedTask = await res.json();
+      const updatedTask = res.data;
       // Actualizar la tarea en la lista de tareas
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
@@ -109,24 +88,17 @@ function useTasks() {
       );
     } catch (error) {
       console.error("Error updating task:", error);
-      throw new Error("Failed to update task. Please try again later.");
+      setError(error);
     }
   };
 
   // Función para marcar una tarea como completada
   const checkTask = async (taskId) => {
     try {
-      const res = await axios(
-        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}/done/`,
-        {
-          method: "POST",
-        }
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}/done/`
       );
-      if (!res.ok) {
-        throw new Error(
-          `Failed to check task: ${res.status} - ${res.statusText}`
-        );
-      }
+      const updatedTask = res.data;
       // Actualizar la lista de tareas después de marcar como completada
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
@@ -135,7 +107,7 @@ function useTasks() {
       );
     } catch (error) {
       console.error("Error checking task:", error);
-      throw new Error("Failed to check task. Please try again later.");
+      setError(error);
     }
   };
 
@@ -148,12 +120,14 @@ const ListTask = () => {
 
   if (loading) {
     return (
-      <InfinitySpin
-        visible={true}
-        width="222"
-        color="#0284c7"
-        ariaLabel="infinity-spin-loading"
-      />
+      <div className="flex justify-center items-center h-full">
+        <InfinitySpin
+          visible={true}
+          width="222"
+          color="#0284c7"
+          ariaLabel="infinity-spin-loading"
+        />
+      </div>
     );
   }
 
@@ -175,12 +149,8 @@ const ListTask = () => {
   );
 
   return (
-    <div
-      className="border border-forth p-6 w-[365px] md:w-[500px] mx-auto mb-2
-    shadow-md shadow-neutral"
-    >
+    <div className="border border-forth p-6 w-[365px] md:w-[500px] mx-auto mb-2 shadow-md shadow-neutral">
       <h2 className="text-3xl text-center m-2 text-secondary">
-        {" "}
         <span className="text-compl">API</span> Tasks List
       </h2>
       <h3 className="text-center text-secondary">Community</h3>
@@ -196,9 +166,7 @@ const ListTask = () => {
         ))}
       </div>
       <PDFDownloadLink document={<MyDocument />} fileName="task-list.pdf">
-        {({ blob, url, loading, error }) =>
-          loading ? "Cargando documento..." : "Descargar PDF"
-        }
+        {({ loading }) => (loading ? "Cargando documento..." : "Descargar PDF")}
       </PDFDownloadLink>
     </div>
   );

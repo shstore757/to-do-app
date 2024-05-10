@@ -1,28 +1,24 @@
 import axios from "axios";
-import React, { useState, useCallback } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const FormTask = () => {
   const navigate = useNavigate();
-  const formRef = React.createRef();
+  const formRef = useRef();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSubmitAPI = useCallback(async () => {
+  const handleSubmitAPI = async (e) => {
+    e.preventDefault();
     if (title !== "") {
       try {
-        const response = await axios(
+        const response = await axios.post(
           `${import.meta.env.VITE_BACKEND_URL}/api/tasks/`,
-          {
-            method: "POST",
-            body: JSON.stringify({ title, description }),
-            headers: {
-              "content-type": "application/json",
-            },
-          }
+          { title, description },
+          { headers: { "Content-Type": "application/json" } }
         );
 
-        if (!response.ok) {
+        if (response.status !== 200) {
           throw new Error("Failed to add task");
         }
         navigate("/");
@@ -32,7 +28,7 @@ const FormTask = () => {
         console.error("Error adding task:", error);
       }
     }
-  }, [title, description, navigate]);
+  };
 
   const handleSaveLocalStorage = () => {
     if (title !== "") {
@@ -45,14 +41,9 @@ const FormTask = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleSubmitAPI();
-  };
-
   return (
     <div className="border border-forth p-6 mx-auto h-[420px] w-[360px] md:w-[500px] shadow-md shadow-neutral">
-      <form ref={formRef} action="" onSubmit={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmitAPI}>
         <h1 className="font-bold text-2xl text-secondary">Add Task</h1>
         <label htmlFor="title" className="text-md text-secondary">
           Title:
@@ -60,10 +51,11 @@ const FormTask = () => {
         <input
           type="text"
           name="title"
-          className="bg-zinc-300 rounded-sm  p-2 mb-2 block w-full text-neutral"
+          className="bg-zinc-300 rounded-sm p-2 mb-2 block w-full text-neutral"
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <label htmlFor="title" className="text-md text-secondary">
+        <label htmlFor="description" className="text-md text-secondary">
           Description:
         </label>
         <textarea
@@ -72,22 +64,19 @@ const FormTask = () => {
           cols="30"
           rows="4"
           className="bg-zinc-300 rounded-sm p-2 mb-2 block w-full h-fit text-neutral"
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
         <button
           type="submit"
-          className="border-compl border-2 rounded-sm text-forth text-xl font-bold block w-full p-2 
-        shadow-md shadow-neutral
-        hover:text-2xl transition-all"
+          className="border-compl border-2 rounded-sm text-forth text-xl font-bold block w-full p-2 shadow-md shadow-neutral hover:text-2xl transition-all"
         >
           Save {">>>"} (API)
         </button>
         <button
           type="button"
           onClick={handleSaveLocalStorage}
-          className="border-compl border-2 rounded-sm text-forth text-xl font-bold block w-full p-2 
-        shadow-md shadow-neutral mt-2
-        hover:text-2xl transition-all"
+          className="border-compl border-2 rounded-sm text-forth text-xl font-bold block w-full p-2 shadow-md shadow-neutral mt-2 hover:text-2xl transition-all"
         >
           Save {">>>"} (Local)
         </button>
