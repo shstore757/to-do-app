@@ -1,6 +1,32 @@
 import React, { useState, useEffect } from "react";
 import TaskCard from "./TaskCard";
 import { InfinitySpin } from "react-loader-spinner";
+import {
+  PDFDownloadLink,
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+} from "@react-pdf/renderer";
+
+// Estilos para el PDF
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: "column",
+    backgroundColor: "#f5f5f5",
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  task: {
+    marginBottom: 10,
+    fontSize: 16,
+  },
+});
 
 // Custom hooks para cargar tareas
 function useTasks() {
@@ -134,6 +160,19 @@ const ListTask = () => {
     return <p>Error: {error.message}</p>;
   }
 
+  const MyDocument = () => (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <Text style={styles.title}>API Tasks List</Text>
+        {tasks.map((task) => (
+          <Text key={task.id} style={styles.task}>
+            {task.title}
+          </Text>
+        ))}
+      </Page>
+    </Document>
+  );
+
   return (
     <div
       className="border border-forth p-6 w-[365px] md:w-[500px] mx-auto mb-2
@@ -155,6 +194,11 @@ const ListTask = () => {
           />
         ))}
       </div>
+      <PDFDownloadLink document={<MyDocument />} fileName="task-list.pdf">
+        {({ blob, url, loading, error }) =>
+          loading ? "Cargando documento..." : "Descargar PDF"
+        }
+      </PDFDownloadLink>
     </div>
   );
 };
