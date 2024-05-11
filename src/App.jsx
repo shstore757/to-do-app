@@ -18,8 +18,6 @@ function App() {
 
   const [user, setUser] = useState(null);
 
-
-
   onAuthStateChanged(auth, (userFirebase) => {
     if (userFirebase) {
       setUser(userFirebase);
@@ -45,7 +43,7 @@ function App() {
           )}
         </Routes>
       </BrowserRouter>
-      <LogoComponent />
+      <LogoComponent className="" />
       {/* <img src="/logo.svg" alt="" className=" mx-auto" /> */}
     </div>
   );

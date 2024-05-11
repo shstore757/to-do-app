@@ -1,17 +1,17 @@
-const Oso1 = () => {
+const LogoComponent = () => {
   return (
-    <div className={`bg-primary containerO -z-40`}>
+    <div className="bg-primary containerO -z-40">
       <svg
         version="1.0"
         xmlns="http://www.w3.org/2000/svg"
-        width="708.000000pt"
-        height="654.000000pt"
-        viewBox="0 0 708.000000 654.000000"
+        width="390.000000pt"
+        height="360.000000pt"
+        viewBox="0 0 300.000000 500.000000"
         preserveAspectRatio="xMidYMid meet"
       >
         <g
           className="oso"
-          transform="translate(-37.000000,354.000000) scale(0.050000,-0.050000)"
+          transform="translate(0.000000,180.000000) scale(0.030000,-0.030000)"
           fill="#999999"
           stroke="#fff"
         >
@@ -84,4 +84,4 @@ c-8 -29 -32 -114 -52 -188 -85 -311 -91 -332 -102 -318 -5 7 -15 36 -22 63 -6
   );
 };
 
-export default Oso1;
+export default LogoComponent;
