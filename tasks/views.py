@@ -15,7 +15,7 @@ def task_list(request):
     return JsonResponse({'tasks': serialized_tasks})
 
 def proxy_task_request(request):
-    response = requests.get('https://api-to-do-blue.vercel.app/api/tasks/')
+    response = requests.get('https://backend-to-do-chi.vercel.app/api/tasks/')
     return JsonResponse(response.json())
 
 

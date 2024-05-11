@@ -3,16 +3,24 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "https://api-to-do-blue.vercel.app//api/$1"
+      "dest": "https://backend-to-do-chi.vercel.app/api/$1"
     },
     {
-      "src": "/static/(.*)",
+      "src": "/(.*)",
       "dest": "BACKEND/wsgi.py"
     }
   ],
   "builds": [
     {
       "src": "BACKEND/",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
+      }
+    },
+    {
+      "src": "taskapi/wsgi.py",
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "15mb",

@@ -6,7 +6,7 @@ SECRET_KEY = 'django-insecure-=su&f&^m9mq6^k@n*#)4ixga8!lec0+isix!ir*k9!ky%-!szj
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ '.vercel.app']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
