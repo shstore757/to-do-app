@@ -161,7 +161,7 @@ const ListTask = () => {
   const MyDocument = () => (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Text style={styles.title}>API Tasks List</Text>
+        <Text style={styles.title}>Community To Do List</Text>
         {tasks.map((task) => (
           <Text key={task.id} style={styles.task}>
             {task.title}
@@ -188,7 +188,11 @@ const ListTask = () => {
           />
         ))}
       </div>
-      <PDFDownloadLink document={<MyDocument />} fileName="task-list.pdf">
+      <PDFDownloadLink
+        document={<MyDocument />}
+        fileName="task-list.pdf"
+        className="text-neutral hover:text-compl"
+      >
         {({ loading }) => (loading ? "Cargando documento..." : "Descargar PDF")}
       </PDFDownloadLink>
     </div>
