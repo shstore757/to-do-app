@@ -11,16 +11,13 @@ const FormTask = () => {
     e.preventDefault();
     if (title !== "") {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/api/tasks/`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ title, description }),
-          }
-        );
+        const response = await fetch(`${import.meta.env.VITE_URL}/api/tasks/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title, description }),
+        });
 
         if (!response.ok) {
           throw new Error("Failed to add task");

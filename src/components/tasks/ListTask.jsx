@@ -34,12 +34,14 @@ function useTasks() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const baseURL =
+    import.meta.env.VITE_URL || "https://to-do-app-theta-five.vercel.app";
+  const tasksEndpoint = `${baseURL}/api/tasks/`;
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/api/tasks/`
-        );
+        const response = await fetch(tasksEndpoint);
         if (!response.ok) {
           throw new Error("Failed to fetch tasks");
         }
@@ -63,12 +65,10 @@ function useTasks() {
   // Función para eliminar una tarea
   const deleteTask = async (taskId) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`${baseURL}/api/tasks/${taskId}`, {
+        method: "DELETE",
+        mode: "cors",
+      });
       if (!response.ok) {
         throw new Error("Failed to delete task");
       }
@@ -83,16 +83,14 @@ function useTasks() {
   // Función para actualizar una tarea
   const updateTask = async (taskId, updatedTaskData) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedTaskData),
-        }
-      );
+      const response = await fetch(`${baseURL}/api/tasks/${taskId}`, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTaskData),
+      });
       if (!response.ok) {
         throw new Error("Failed to update task");
       }
@@ -112,12 +110,9 @@ function useTasks() {
   // Función para marcar una tarea como completada
   const checkTask = async (taskId) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/tasks/${taskId}/done/`,
-        {
-          method: "POST",
-        }
-      );
+      const response = await fetch(`${baseURL}/api/tasks/${taskId}/done/`, {
+        method: "POST",
+      });
       if (!response.ok) {
         throw new Error("Failed to check task");
       }
@@ -170,6 +165,8 @@ const ListTask = () => {
       </Page>
     </Document>
   );
+
+  console.log(baseURL);
 
   return (
     <div className="border border-forth p-6 w-[365px] md:w-[500px] mx-auto mb-2 shadow-md shadow-neutral">

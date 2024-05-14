@@ -1,50 +1,38 @@
-import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+// App.jsx
+import React, { useState, useEffect } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import appFirebase from "../src/credentials";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Dashboard from "./components/dashboard/DashboardTodo";
 import NavBar from "./components/layout/NavBar";
-import { useDispatch } from "react-redux";
-
-//Modulos de Firebase
-import appFirebase from "../src/credentials";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-const auth = getAuth(appFirebase);
-
 import LogoComponent from "./components/layout/LogoComponent";
 
 function App() {
   const dispatch = useDispatch();
-
   const [user, setUser] = useState(null);
 
-  onAuthStateChanged(auth, (userFirebase) => {
-    if (userFirebase) {
-      setUser(userFirebase);
-    } else {
-      setUser(null);
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(
+      getAuth(appFirebase),
+      (userFirebase) => {
+        setUser(userFirebase);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
 
   return (
-    <div
-      className={`font-rubik ${user ? "bg-primary" : "bg-transparent"} -z-50`}
-    >
-      <BrowserRouter>
-        <NavBar />
-        <Routes>
-          <Route path="/signin" Component={SignIn} />
-          <Route path="/signup" Component={SignUp} />
-
-          {user ? (
-            <Route path="/" Component={Dashboard} />
-          ) : (
-            <Route path="/signin" Component={SignIn} />
-          )}
-        </Routes>
-      </BrowserRouter>
-      <LogoComponent className="" />
-      {/* <img src="/logo.svg" alt="" className=" mx-auto" /> */}
+    <div className={`font-rubik ${user ? "bg-primary" : "bg-transparent"} -z-50`}>
+      <NavBar />
+      <Routes>
+        <Route path="/signin" element={user ? <Navigate to="/" /> : <SignIn />} />
+        <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUp />} />
+        <Route path="/" element={user ? <Dashboard /> : <Navigate to="/signin" />} />
+      </Routes>
+      <LogoComponent />
     </div>
   );
 }
