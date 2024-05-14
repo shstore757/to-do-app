@@ -20,8 +20,7 @@ from tasks.views import proxy_task_request, task_list
 
 urlpatterns = [
      path('admin/', admin.site.urls),
-    path('', include('tasks.urls')),  
-     path('api/proxy/tasks/', proxy_task_request, name='proxy_task_request'),
-     path('api/tasks/', task_list, name='task_list'),
+     path('', include('tasks.urls')),  
+     path('api/tasks/', proxy_task_request, name='proxy_task_request'),
 ]
 

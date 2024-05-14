@@ -15,8 +15,18 @@ def task_list(request):
     return JsonResponse({'tasks': serialized_tasks})
 
 def proxy_task_request(request):
-    response = requests.get('https://backend-to-do-chi.vercel.app/api/tasks/')
-    return JsonResponse(response.json())
-
-
-# Create your views here.
+    try:
+        # Realizar solicitud a la API externa usando la URL proxy
+        # response = requests.get('http://127.0.0.1:8000/api/tasks/') 
+        response = requests.get('https://backend-to-do-bice.vercel.app/api/tasks/') 
+        
+        # Verificar si la solicitud fue exitosa (código de estado 200)
+        if response.status_code == 200:
+            # Devolver los datos obtenidos de la API externa como respuesta
+            return JsonResponse(response.json())
+        else:
+            # Si la solicitud falla, devolver un mensaje de error
+            return JsonResponse({'error': 'Failed to fetch tasks from external API'}, status=response.status_code)
+    except Exception as e:
+        # Manejar cualquier excepción que pueda ocurrir durante la solicitud
+        return JsonResponse({'error': str(e)}, status=500)

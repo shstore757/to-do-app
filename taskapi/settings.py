@@ -6,7 +6,7 @@ SECRET_KEY = 'django-insecure-=su&f&^m9mq6^k@n*#)4ixga8!lec0+isix!ir*k9!ky%-!szj
 
 DEBUG = True
 
-ALLOWED_HOSTS = [ '.vercel.app']
+ALLOWED_HOSTS = [ '127.0.0.1', '.vercel.app' ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -86,9 +86,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
 
-    "https://to-do-basic.vercel.app",
+CORS_ALLOWED_ORIGINS = [
         "http://localhost:5173"
 ]
 
@@ -110,4 +109,7 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# Permitir todos los orígenes (para desarrollo)
+CORS_ALLOW_ALL_ORIGINS = True
 
