@@ -7,11 +7,13 @@ const FormTask = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const baseURL = "https://apitask-nine.vercel.app/";
+
   const handleSubmitAPI = async (e) => {
     e.preventDefault();
     if (title !== "") {
       try {
-        const response = await fetch(`${import.meta.env.VITE_URL}/api/tasks/`, {
+        const response = await fetch(`${baseURL}api/tasks/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

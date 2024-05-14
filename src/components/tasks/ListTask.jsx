@@ -34,9 +34,7 @@ function useTasks() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const baseURL =
-    import.meta.env.VITE_URL || "https://to-do-app-theta-five.vercel.app";
-  const tasksEndpoint = `${baseURL}/api/tasks/`;
+  const tasksEndpoint = `https://apitask-nine.vercel.app/api/tasks/`;
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -65,7 +63,7 @@ function useTasks() {
   // Función para eliminar una tarea
   const deleteTask = async (taskId) => {
     try {
-      const response = await fetch(`${baseURL}/api/tasks/${taskId}`, {
+      const response = await fetch(`${tasksEndpoint}${taskId}`, {
         method: "DELETE",
         mode: "cors",
       });
@@ -83,7 +81,7 @@ function useTasks() {
   // Función para actualizar una tarea
   const updateTask = async (taskId, updatedTaskData) => {
     try {
-      const response = await fetch(`${baseURL}/api/tasks/${taskId}`, {
+      const response = await fetch(`${tasksEndpoint}${taskId}`, {
         method: "PUT",
         mode: "cors",
         headers: {
@@ -110,7 +108,7 @@ function useTasks() {
   // Función para marcar una tarea como completada
   const checkTask = async (taskId) => {
     try {
-      const response = await fetch(`${baseURL}/api/tasks/${taskId}/done/`, {
+      const response = await fetch(`${tasksEndpoint}${taskId}/done/`, {
         method: "POST",
       });
       if (!response.ok) {
